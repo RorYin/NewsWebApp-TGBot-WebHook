@@ -8,8 +8,8 @@ secret=""
 url="https://webapppbot.herokuapp.com/"
 
 bot = telebot.TeleBot(token,threaded=False)
-bot.remove_webhook()
-bot.set_webhook(url=url)
+
+bot.set_webhook(url)
 
 
 app = Flask(__name__)
