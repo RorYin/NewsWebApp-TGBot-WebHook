@@ -4,7 +4,8 @@ from flask import Flask, json ,request
 
 token="5002606701:AAFt2QcHWaEgqW0T63dXmTIQYglYX2Dw1bM"
 secret=""
-url="https://roryin.pythonanywhere.com/"
+# url="https://roryin.pythonanywhere.com/"
+url="https://webapppbot.herokuapp.com/"
 
 bot = telebot.TeleBot(token,threaded=False)
 bot.remove_webhook()
