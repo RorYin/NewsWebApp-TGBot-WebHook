@@ -123,12 +123,13 @@ def handletgbotquery(text,chat_id,msg_id,query):
     try:
         response=requests.get(url+text[1:],headers).json()
         for i in response:
-            image_url = i['image url']
-            headline = i['headline']
-            paragraph = i['paragraph']
-            date = i['date']
-            source_url = i['source url']
-            log.sendPhoto(image_url,headline,chat_id,msg_id)
+            for j in range(11):
+                image_url = i['image url']
+                headline = i['headline']
+                paragraph = i['paragraph']
+                date = i['date']
+                source_url = i['source url']
+                log.sendPhoto(image_url,headline,chat_id,msg_id)
         log.deleteMessage(chat_id,msg_id+1)
         return
     except:
@@ -183,6 +184,7 @@ def handlebot():
         except:
             log.sendMsgTo(887572477,"Something went wrong in bot while getting updates",55)
             print("Something went wrong while getting updates")
+            return Response("Ok",status=200)
             
         try:
             #get all normal text messages
@@ -192,14 +194,17 @@ def handlebot():
         except:
             log.sendMsgTo(887572477,"Something went wrong in bot while parsing json data",55)
             print("Something went wrong while parsing json data")
+            return Response("Ok",status=200)
             
 
         if (text[0]=="/"):
                 handlecommands(text,chat_id,message_id)
+                return Response("Ok",status=200)
         else:
             log.sendMsgTo(chat_id,"Help message here",message_id)
+            return Response("Ok",status=200)
 
-        return Response("Ok",status=200)
+        
 
 
 
