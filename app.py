@@ -1,33 +1,210 @@
-from flask.wrappers import Request
-import telebot
-from flask import Flask, json ,request
 
-token="5002606701:AAFt2QcHWaEgqW0T63dXmTIQYglYX2Dw1bM"
-secret=""
-# url="https://roryin.pythonanywhere.com/"
-url="https://webapppbot.herokuapp.com/"
+import os
+from flask.templating import render_template_string,render_template
+import requests
+import bs4
+from flask import Flask,jsonify,request,Response
 
-bot = telebot.TeleBot(token)
+from logger import logger
 
-bot.set_webhook(url)
-
-
+#Setting the flask app
 app = Flask(__name__)
-@app.route('/',methods=['POST'])
-def webhook():
+app.url_map.strict_slashes=False
+
+token = "5039729752:AAF8GqvoMfnLK3uSfIq9uHBR2_RLrqmo_Pk" #testing
+
+# token = os.environ.get('token')  #production
+log=logger(token)
+
+#for webapp
+def getdata(query):
+    url="http://roryin-newsapi.herokuapp.com/?q="
+    headers = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36'}
     try:
-        update = telebot.types.Update.de_json(request.stream.read().decode('utf-8'))
-        print(json.dumps(update))
-        bot.process_new_updates([update])
-        return ('ok',200)
-    except Exception as e:
-        print("error is : ",e)
+        response=requests.get(url+query,headers=headers).json()
+        output=""
+        for i in response:
+            image_url = i['image url']
+            headline = i['headline']
+            paragraph = i['paragraph']
+            date = i['date']
+            source_url = i['source url']
+
+            result=fr""" <div class="gridelement" style="align-self: center;
+        display: inline-block;
+        font-family: 'Raleway', sans-serif;
+        width: 45%;
+        border-radius: 20px;
+        border-left: salmon;
+        margin-bottom:5px;
+        
+        
+        padding: 5px 5px 5px 5px;
+        box-shadow: 3px 3px 3px 3px #e1eaee;">
+            <body style="text-align:center">
+                <center style=" font-family:arial">
+                
+                
+                <img src="{image_url}" alt="" width="97%" height="35%" style="border-radius:12px; object-fit:cover;"><br>
+                <br>
+                <h2 style="color:#000000;font-size:19px;">{headline}</h2>
+                <div class="text" style="width:90%;>
+                
+                <h2 style="width:90%; font-size:12px;">Description: {paragraph}</h2><h2>
+                    <h1 style="font-size:18px; color: rgb(32, 7, 122);">{date}</h1>
+                
+                
+                <div style="color:#0918B3">
+                
+                <div>
+                </div>
+                
+                <button class="btn danger" onclick="window.location.href='{source_url}'" style="width:90%;
+                    border: 2px solid black;
+                    background-color: white;
+                    color: black;
+                    padding: 14px 28px;
+                    font-size: auto;
+                    cursor: pointer;
+                    border-radius:15px;
+                    float:center; 
+                    background: hsl(214, 81%, 51%);
+                    color: white;">Read More</button><br><br>
+                
+                    
+                
+                </div></div></center></body>
+        </div>"""
+                
+                
+            output=output+result
+            
+        
+        output=f""" <html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" type="image/x-icon" href="https://telegra.ph/file/ccba9696db89a8598b8fe.png">
+        <title>Search Results</title>
+        
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Kumbh+Sans&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans&family=Raleway:wght@100;500&display=swap');
+    
 
 
-@bot.message_handler(commands=['start'])
-def start(msg):
+
+    </style>
+    </head>
+    <body>
+        <center><h2>
+        <div class="header" ><img src="https://telegra.ph/file/ccba9696db89a8598b8fe.png" alt="" style="max-width: 100px;"></div>
+        <div class="header" style="border-radius: 20px;font-family:monospace;font-size:30px;align-self: center;vertical-align: middle;width: 50%; margin-top:2%">Search Results</div>
+        </center></h2>
+        <div class="gridcontainer" style="padding-top:1%;border-radius: 20px; align-self: center;vertical-align: middle;width: 100%;">
+        {output}
+        </div>
+    </body>
+    </html>"""
+        #print(output)
+        return output
+    except :
+        return "Something went wrong"
+
+
+#ForTGBot
+
+def handletgbotquery(text,chat_id,msg_id,query):
+    headers = {'User-Agent': "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36"}
+    url="http://roryin-newsapi.herokuapp.com/?q="
     try:
-        bot.reply_to(msg,"Hello user")
-    except Exception as e:
-        print("Error is : ",e)
+        response=requests.get(url+text[1:],headers).json()
+        for i in response:
+            image_url = i['image url']
+            headline = i['headline']
+            paragraph = i['paragraph']
+            date = i['date']
+            source_url = i['source url']
+            log.sendPhoto(image_url,headline,chat_id,msg_id)
+        log.deleteMessage(chat_id,msg_id+1)
+        return
+    except:
+        log.sendMsgTo(chat_id,"Something went wrong while handling commands",msg_id)
 
+
+def handlecommands(text,chat_id,msg_id):
+    headers = {'User-Agent': "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36"}
+    if(text[:6]=="/start"):
+        imgurl="https://telegra.ph/file/b6d718ddb6e61485063af.jpg"
+        text1="𝘏𝘦𝘭𝘭𝘰 𝘜𝘴𝘦𝘳 ,𝘪𝘮 𝘴𝘵𝘪𝘭𝘭 𝘢𝘭𝘪𝘷𝘦 ,𝘵𝘩𝘢𝘯𝘬 𝘺𝘰𝘶 𝘧𝘰𝘳 𝘸𝘢𝘬𝘪𝘯𝘨 𝘮𝘦 𝘶𝘱 ,𝘦𝘯𝘫𝘰𝘺 𝘺𝘰𝘶𝘳 𝘥𝘢𝘺"
+        log.sendPhoto(imgurl,text1,chat_id,msg_id)
+        return
+
+    elif(text[:5]=="/help"):
+        imgurl=""
+        txt=""
+        log.sendPhoto(imgurl,txt,chat_id,msg_id)
+        return
+
+    else:
+        log.sendMsgTo(chat_id,"Please wait....",msg_id)
+        handletgbotquery(text,chat_id,msg_id,text[1:])
+        return
+        
+
+
+
+
+
+
+
+@app.route('/',methods=['POST','GET'])
+def home():
+    query=request.args.get('q')
+    
+    if query == None:
+        return render_template("index.html")
+    else:
+        print(query)
+        data=getdata(query)
+ 
+        
+    return render_template_string(data)
+
+@app.route('/botupdates',methods=['POST','GET'])
+def handlebot():
+    if request.method == "POST":
+        
+        try:
+            msg=request.get_json()
+        except:
+            log.sendMsgTo(887572477,"Something went wrong in bot while getting updates",55)
+            print("Something went wrong while getting updates")
+            
+        try:
+            #get all normal text messages
+            chat_id=msg['message']['chat']['id']
+            text=msg['message']['text']
+            message_id=msg['message']['message_id']
+        except:
+            log.sendMsgTo(887572477,"Something went wrong in bot while parsing json data",55)
+            print("Something went wrong while parsing json data")
+            
+
+        if (text[0]=="/"):
+                handlecommands(text,chat_id,message_id)
+        else:
+            log.sendMsgTo(chat_id,"Help message here",message_id)
+
+        return Response("Ok",status=200)
+
+
+
+
+
+if __name__ == '__main__':
+    app.debug=True
+    app.run()    
