@@ -235,7 +235,7 @@ def handlebot():
                 handlecommands(text,chat_id,message_id)
                 return Response("Ok",status=200)
         else:
-            bot.sendMsgTo(chat_id,"Help message here",message_id,"Markdown")
+            handlecommands("/help",chat_id,message_id)
             return Response("Ok",status=200)
 
         
