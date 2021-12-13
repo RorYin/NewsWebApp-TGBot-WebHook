@@ -130,21 +130,28 @@ def handletgbotquery(text,chat_id,msg_id,query):
                 paragraph = i['paragraph']
                 date = i['date']
                 source_url = i['source url']
-                log.sendPhoto(image_url,headline,chat_id,msg_id)
+                log.sendPhoto(image_url,headline,chat_id,-1,"Markdown")
                 j+=1
         log.deleteMessage(chat_id,msg_id+1)
         return
     except:
-        log.sendMsgTo(chat_id,"Something went wrong while handling commands",msg_id)
+        log.sendMsgTo(chat_id,"Something went wrong while handling commands",msg_id,"Markdown")
         return
 
 
 def handlecommands(text,chat_id,msg_id):
     headers = {'User-Agent': "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36"}
     if(text[:6]=="/start"):
-        imgurl="https://telegra.ph/file/b6d718ddb6e61485063af.jpg"
-        text1="𝘏𝘦𝘭𝘭𝘰 𝘜𝘴𝘦𝘳 ,𝘪𝘮 𝘴𝘵𝘪𝘭𝘭 𝘢𝘭𝘪𝘷𝘦 ,𝘵𝘩𝘢𝘯𝘬 𝘺𝘰𝘶 𝘧𝘰𝘳 𝘸𝘢𝘬𝘪𝘯𝘨 𝘮𝘦 𝘶𝘱 ,𝘦𝘯𝘫𝘰𝘺 𝘺𝘰𝘶𝘳 𝘥𝘢𝘺"
-        log.sendPhoto(imgurl,text1,chat_id,msg_id)
+        imgurl="https://telegra.ph/file/cdad9d0670b990db8de62.jpg"
+        text1="""Welcome to Indian NEWS Bot,
+get latest NEWS of every category quicky 
+
+To know more about bot usage /help
+API Source Code (https://github.com/RorYin/News-API)
+Bot Developped By RorYin (https://github.com/RorYin)
+
+Stay Safe ,Stay Home"""
+        log.sendPhoto(imgurl,text1,chat_id,msg_id,"Markdown")
         return
 
     elif(text[:5]=="/help"):
@@ -185,7 +192,7 @@ def handlebot():
         try:
             msg=request.get_json()
         except:
-            log.sendMsgTo(887572477,"Something went wrong in bot while getting updates",55)
+            log.sendMsgTo(887572477,"Something went wrong in bot while getting updates",55,"Markdown")
             print("Something went wrong while getting updates")
             return Response("Ok",status=200)
             
@@ -195,7 +202,7 @@ def handlebot():
             text=msg['message']['text']
             message_id=msg['message']['message_id']
         except:
-            log.sendMsgTo(887572477,"Something went wrong in bot while parsing json data",55)
+            log.sendMsgTo(887572477,"Something went wrong in bot while parsing json data",55,"Markdown")
             print("Something went wrong while parsing json data")
             return Response("Ok",status=200)
             
@@ -204,7 +211,7 @@ def handlebot():
                 handlecommands(text,chat_id,message_id)
                 return Response("Ok",status=200)
         else:
-            log.sendMsgTo(chat_id,"Help message here",message_id)
+            log.sendMsgTo(chat_id,"Help message here",message_id,"Markdown")
             return Response("Ok",status=200)
 
         

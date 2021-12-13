@@ -11,26 +11,28 @@ class logger():
         self.url=f"https://api.telegram.org/bot{token}/"
         self.token=token
 
-    def sendMsgTo(self,chat_id,msg,msg_id):
+    def sendMsgTo(self,chat_id,msg,msg_id,markdown):
         params={
             "reply_to_message_id":msg_id,
             "allow_sending_without_reply":True,
             "chat_id":chat_id,
-            "text":msg
+            "text":msg,
+            "parse_mode":markdown
             }
 
         response=requests.get(f"https://api.telegram.org/bot{self.token}/sendMessage",headers=headers,params=params)
         if(response.status_code!=202):
             print(response.status_code)
 
-    def sendPhoto(self,imgurl,text,chat_id,msg_id):
+    def sendPhoto(self,imgurl,text,chat_id,msg_id,markdown):
         #send message
         params={
             "chat_id":chat_id,
             "allow_sending_without_reply":True,
             "reply_to_message_id":msg_id,
             "photo":imgurl,
-            "caption":text
+            "caption":text,
+            "parse_mode":markdown
         }
         try:
             response=requests.get(f"https://api.telegram.org/bot{self.token}/sendPhoto",headers=headers,params=params)
