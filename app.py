@@ -143,22 +143,19 @@ def handlecommands(text,chat_id,msg_id):
     headers = {'User-Agent': "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36"}
     if(text[:6]=="/start"):
         imgurl="https://telegra.ph/file/cdad9d0670b990db8de62.jpg"
-        text1="""Welcome to Indian NEWS Bot,
-get latest NEWS of every category quicky 
-
+        text1="""*Welcome to Indian NEWS Bot*,
+_get latest NEWS of every category quicky _
 To know more about bot usage /help
-API Source Code (https://github.com/RorYin/News-API)
-Bot Developped By RorYin (https://github.com/RorYin)
-
-Stay Safe ,Stay Home"""
+[API Source Code](https://github.com/RorYin/News-API)
+[Bot Developped By RorYin](https://github.com/RorYin)
+*Stay Safe ,Stay Home*"""
         log.sendPhoto(imgurl,text1,chat_id,msg_id,"Markdown")
         return
 
     elif(text[:5]=="/help"):
         imgurl="https://telegra.ph/file/cdad9d0670b990db8de62.jpg"
-        txt="""Get top 10 NEWS of category you wish
-Just select the category you want from below
-
+        txt="""*Get top 10 NEWS of category you wish*
+_Just select the category you want from below_
 /topnews
 /india
 /karnataka
@@ -172,10 +169,8 @@ Just select the category you want from below
 /viral
 /lifestyle
 /food
-
-Or simply search any topic by sending in format of "/topicname"  to bot
-
-Stay Safe ,Stay Home"""
+*Or simply search any topic by sending in format of "/topicname"  to bot*
+*Stay Safe ,Stay Home*"""
         log.sendPhoto(imgurl,txt,chat_id,msg_id,"Markdown")
         return
 
