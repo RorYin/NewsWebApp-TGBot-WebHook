@@ -11,9 +11,9 @@ from logger import logger
 app = Flask(__name__)
 app.url_map.strict_slashes=False
 
-token = "5039729752:AAF8GqvoMfnLK3uSfIq9uHBR2_RLrqmo_Pk" #testing
+# token = "Bot TOKEN HERE" #testing
 
-# token = os.environ.get('token')  #production
+token = os.environ.get('token')  #production
 bot=logger(token)
 
 #for webapp
