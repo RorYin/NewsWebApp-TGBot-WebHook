@@ -14,7 +14,7 @@ app.url_map.strict_slashes=False
 token = "5039729752:AAF8GqvoMfnLK3uSfIq9uHBR2_RLrqmo_Pk" #testing
 
 # token = os.environ.get('token')  #production
-log=logger(token)
+bot=logger(token)
 
 #for webapp
 def getdata(query):
@@ -129,19 +129,20 @@ def handletgbotquery(text,chat_id,msg_id,query):
                 headline = i['headline']
                 paragraph = i['paragraph']
                 date = i['date']
+                date=date.strip()
                 source_url = i['source url']
                 tosend=f"""*{headline}*
 _{paragraph}..._
 [Read More]({source_url})
 
-_{date.strip}_
+_{date}_
 *@tg_new_news_bot*"""
-                log.sendPhoto(image_url,tosend,chat_id,-1,"Markdown")
+                bot.sendPhoto(image_url,tosend,chat_id,-1,"Markdown")
                 j+=1
-        log.deleteMessage(chat_id,msg_id+1)
+        bot.deleteMessage(chat_id,msg_id+1)
         return
     except:
-        log.sendMsgTo(chat_id,"Something went wrong while handling commands",msg_id,"Markdown")
+        bot.sendMsgTo(chat_id,"Something went wrong while handling commands",msg_id,"Markdown")
         return
 
 
@@ -157,7 +158,7 @@ To know more about bot usage /help
 [Bot Developped By RorYin](https://github.com/RorYin)
 
 *Stay Safe ,Stay Home*"""
-        log.sendPhoto(imgurl,text1,chat_id,msg_id,"Markdown")
+        bot.sendPhoto(imgurl,text1,chat_id,msg_id,"Markdown")
         return
 
     elif(text[:5]=="/help"):
@@ -170,7 +171,7 @@ _Just select the category you want from below_
 /bengaluru
 /covid
 /world
-/technology
+/technoboty
 /entertainment
 /business
 /education
@@ -180,11 +181,11 @@ _Just select the category you want from below_
 
 *Or simply search any topic by sending in format of "/topicname"  to bot*
 *Stay Safe ,Stay Home*"""
-        log.sendPhoto(imgurl,txt,chat_id,msg_id,"Markdown")
+        bot.sendPhoto(imgurl,txt,chat_id,msg_id,"Markdown")
         return
 
     else:
-        log.sendMsgTo(chat_id,"Please wait....",msg_id,"Markdown")
+        bot.sendMsgTo(chat_id,"Please wait....",msg_id,"Markdown")
         handletgbotquery(text,chat_id,msg_id,text[1:])
         return
         
@@ -215,7 +216,7 @@ def handlebot():
         try:
             msg=request.get_json()
         except:
-            log.sendMsgTo(887572477,"Something went wrong in bot while getting updates",55,"Markdown")
+            bot.sendMsgTo(887572477,"Something went wrong in bot while getting updates",55,"Markdown")
             print("Something went wrong while getting updates")
             return Response("Ok",status=200)
             
@@ -225,7 +226,7 @@ def handlebot():
             text=msg['message']['text']
             message_id=msg['message']['message_id']
         except:
-            log.sendMsgTo(887572477,"Something went wrong in bot while parsing json data",55,"Markdown")
+            bot.sendMsgTo(887572477,"Something went wrong in bot while parsing json data",55,"Markdown")
             print("Something went wrong while parsing json data")
             return Response("Ok",status=200)
             
@@ -234,7 +235,7 @@ def handlebot():
                 handlecommands(text,chat_id,message_id)
                 return Response("Ok",status=200)
         else:
-            log.sendMsgTo(chat_id,"Help message here",message_id,"Markdown")
+            bot.sendMsgTo(chat_id,"Help message here",message_id,"Markdown")
             return Response("Ok",status=200)
 
         
