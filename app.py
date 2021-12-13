@@ -180,7 +180,7 @@ Stay Safe ,Stay Home"""
         return
 
     else:
-        log.sendMsgTo(chat_id,"Please wait....",msg_id)
+        log.sendMsgTo(chat_id,"Please wait....",msg_id,"Markdown")
         handletgbotquery(text,chat_id,msg_id,text[1:])
         return
         
