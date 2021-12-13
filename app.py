@@ -155,9 +155,28 @@ Stay Safe ,Stay Home"""
         return
 
     elif(text[:5]=="/help"):
-        imgurl=""
-        txt=""
-        log.sendPhoto(imgurl,txt,chat_id,msg_id)
+        imgurl="https://telegra.ph/file/cdad9d0670b990db8de62.jpg"
+        txt="""Get top 10 NEWS of category you wish
+Just select the category you want from below
+
+/topnews
+/india
+/karnataka
+/bengaluru
+/covid
+/world
+/technology
+/entertainment
+/business
+/education
+/viral
+/lifestyle
+/food
+
+Or simply search any topic by sending in format of "/topicname"  to bot
+
+Stay Safe ,Stay Home"""
+        log.sendPhoto(imgurl,txt,chat_id,msg_id,"Markdown")
         return
 
     else:
