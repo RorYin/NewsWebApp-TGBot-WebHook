@@ -149,7 +149,7 @@ _{date}_
 def handlecommands(text,chat_id,msg_id):
     headers = {'User-Agent': "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36"}
     if(text[:6]=="/start"):
-        imgurl="https://telegra.ph/file/cdad9d0670b990db8de62.jpg"
+        imgurl="https://telegra.ph/file/9c1f4d16da49fbf86bbeb.jpg"
         text1="""*Welcome to Indian NEWS Bot*,
 _get latest NEWS of every category quicky _
 
@@ -162,7 +162,7 @@ To know more about bot usage /help
         return
 
     elif(text[:5]=="/help"):
-        imgurl="https://telegra.ph/file/cdad9d0670b990db8de62.jpg"
+        imgurl="https://telegra.ph/file/a949a494c82612f6fa2b3.jpg"
         txt="""*Get top 10 NEWS of category you wish*
 _Just select the category you want from below_
 /topnews
