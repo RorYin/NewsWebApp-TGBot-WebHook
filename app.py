@@ -134,7 +134,7 @@ def handletgbotquery(text,chat_id,msg_id,query):
 _{paragraph}..._
 [Read More]({source_url})
 
-_{date}_
+_{date.strip}_
 *@tg_new_news_bot*"""
                 log.sendPhoto(image_url,tosend,chat_id,-1,"Markdown")
                 j+=1
