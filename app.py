@@ -171,7 +171,7 @@ _Just select the category you want from below_
 /bengaluru
 /covid
 /world
-/technoboty
+/technology
 /entertainment
 /business
 /education
