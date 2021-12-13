@@ -130,7 +130,13 @@ def handletgbotquery(text,chat_id,msg_id,query):
                 paragraph = i['paragraph']
                 date = i['date']
                 source_url = i['source url']
-                log.sendPhoto(image_url,headline,chat_id,-1,"Markdown")
+                tosend=f"""*{headline}*
+_{paragraph}..._
+[Read More]({source_url})
+
+_{date}_
+*@tg_new_news_bot*"""
+                log.sendPhoto(image_url,tosend,chat_id,-1,"Markdown")
                 j+=1
         log.deleteMessage(chat_id,msg_id+1)
         return
@@ -145,9 +151,11 @@ def handlecommands(text,chat_id,msg_id):
         imgurl="https://telegra.ph/file/cdad9d0670b990db8de62.jpg"
         text1="""*Welcome to Indian NEWS Bot*,
 _get latest NEWS of every category quicky _
+
 To know more about bot usage /help
 [API Source Code](https://github.com/RorYin/News-API)
 [Bot Developped By RorYin](https://github.com/RorYin)
+
 *Stay Safe ,Stay Home*"""
         log.sendPhoto(imgurl,text1,chat_id,msg_id,"Markdown")
         return
@@ -169,6 +177,7 @@ _Just select the category you want from below_
 /viral
 /lifestyle
 /food
+
 *Or simply search any topic by sending in format of "/topicname"  to bot*
 *Stay Safe ,Stay Home*"""
         log.sendPhoto(imgurl,txt,chat_id,msg_id,"Markdown")
