@@ -112,7 +112,7 @@ def getdata(query):
         #print(output)
         return output
     except :
-        return "Something went wrong"
+        return render_template("display.html",output="No results found ,try with other topic")
 
 
 #ForTGBot
@@ -135,14 +135,14 @@ def handletgbotquery(text,chat_id,msg_id,query):
 _{paragraph}..._
 [Read More]({source_url})
 
-_{date}_
+{date}
 *@tg_new_news_bot*"""
                 bot.sendPhoto(image_url,tosend,chat_id,-1,"Markdown")
                 j+=1
         bot.deleteMessage(chat_id,msg_id+1)
         return
     except:
-        bot.sendMsgTo(chat_id,"Something went wrong while handling commands",msg_id,"Markdown")
+        bot.sendMsgTo(chat_id,"No results found ,try with other topic",msg_id,"Markdown")
         return
 
 
