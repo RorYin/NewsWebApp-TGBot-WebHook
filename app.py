@@ -7,9 +7,9 @@ from flask import Flask,jsonify,request,Response
 
 
 #for webapp
-from webapphandler import getdata
+from webapphandler import *
 #for tgbot
-from bothandler import handlecommands,handletgbotquery
+from bothandler import *
 
 #Setting the flask app
 app = Flask(__name__)
