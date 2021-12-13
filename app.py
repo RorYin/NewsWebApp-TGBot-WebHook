@@ -122,18 +122,21 @@ def handletgbotquery(text,chat_id,msg_id,query):
     url="http://roryin-newsapi.herokuapp.com/?q="
     try:
         response=requests.get(url+text[1:],headers).json()
+        j=0
         for i in response:
-            for j in range(11):
+            if j<10:
                 image_url = i['image url']
                 headline = i['headline']
                 paragraph = i['paragraph']
                 date = i['date']
                 source_url = i['source url']
                 log.sendPhoto(image_url,headline,chat_id,msg_id)
+                j+=1
         log.deleteMessage(chat_id,msg_id+1)
         return
     except:
         log.sendMsgTo(chat_id,"Something went wrong while handling commands",msg_id)
+        return
 
 
 def handlecommands(text,chat_id,msg_id):
