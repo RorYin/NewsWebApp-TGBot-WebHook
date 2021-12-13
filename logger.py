@@ -5,7 +5,7 @@ from werkzeug.wrappers import response
 
 headers = {'User-Agent': "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36"}
 
-class logger():
+class botger():
     def __init__(self,token):
 
         self.url=f"https://api.telegram.org/bot{token}/"
@@ -39,7 +39,7 @@ class logger():
             if(response.status_code!=202):
                 print(response.status_code)
         except:
-            print("In logger module ,problem with requests")
+            print("In botger module ,problem with requests")
 
     def deleteMessage(self,chat_id,message_id):
         #delete the message
@@ -52,7 +52,7 @@ class logger():
             if(response.status_code!=202):
                 print(response.status_code)
         except:
-            print("In logger module ,problem with requests")
+            print("In botger module ,problem with requests")
 
 
 
