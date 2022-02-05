@@ -116,7 +116,6 @@ def getdata(query):
 
 
 #ForTGBot
-
 def handletgbotquery(text,chat_id,msg_id,query):
     headers = {'User-Agent': "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36"}
     url="http://roryin-newsapi.herokuapp.com/?q="
@@ -165,7 +164,7 @@ To know more about bot usage /help
         imgurl="https://telegra.ph/file/a949a494c82612f6fa2b3.jpg"
         txt="""*Get top 10 NEWS of category you wish*
 _Just select the category you want from below_
-/topnews
+
 /india
 /karnataka
 /bengaluru
