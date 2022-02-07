@@ -154,7 +154,7 @@ _get latest NEWS of every category quicky _
 
 To know more about bot usage /help
 [API Source Code](https://github.com/RorYin/News-API)
-[Bot Developped By RorYin](https://github.com/RorYin)
+[Bot Developed By RorYin](https://github.com/RorYin)
 
 *Stay Safe ,Stay Home*"""
         bot.sendPhoto(imgurl,text1,chat_id,msg_id,"Markdown")
