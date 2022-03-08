@@ -125,6 +125,7 @@ def handletgbotquery(text,chat_id,msg_id,query):
         response=requests.get(url+text[1:],headers).json()
         j=0
         if len(response)==0:
+            bot.deleteMessage(chat_id,msg_id+1)
             bot.sendMsgTo(chat_id,"No results found ,try with other topic",msg_id,"Markdown")
             return
 
