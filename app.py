@@ -23,6 +23,8 @@ def getdata(query):
     try:
         response=requests.get(url+query,headers=headers).json()
         output=""
+        if len(response)==0:
+            return render_template("display.html",output="No results found ,try with other topic")
         for i in response:
             image_url = i['image url']
             headline = i['headline']
@@ -122,6 +124,10 @@ def handletgbotquery(text,chat_id,msg_id,query):
     try:
         response=requests.get(url+text[1:],headers).json()
         j=0
+        if len(response)==0:
+            bot.sendMsgTo(chat_id,"No results found ,try with other topic",msg_id,"Markdown")
+            return
+
         for i in response:
             if j<10:
                 image_url = i['image url']
@@ -154,7 +160,7 @@ _get latest NEWS of every category quicky _
 
 To know more about bot usage /help
 [API Source Code](https://github.com/RorYin/News-API)
-[Bot Developed By RorYin](https://github.com/RorYin)
+[Bot Developped By RorYin](https://github.com/RorYin)
 
 *Stay Safe ,Stay Home*"""
         bot.sendPhoto(imgurl,text1,chat_id,msg_id,"Markdown")
